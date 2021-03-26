@@ -39,7 +39,7 @@ export class CharacterService {
         }),
         mergeMap(films => {
           console.log(films);
-          let requestFilms = films.map(film => this.http.get<Film>(film))
+          let requestFilms = films.map(film => this.http.get<Film>("https://" + film.split("//")[1]))
           return forkJoin(requestFilms).pipe(catchError(error => of(error)));
         }),
         take(1)
