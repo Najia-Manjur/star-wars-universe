@@ -1,0 +1,48 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container text-center">
+    <h1 class="display-4">{{name}}</h1>
+    <p class="lead">Related films</p>
+    <button (click)="goBack()">Back</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="text-center" *ngIf="isLoading">
+    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" role="alert" *ngIf="err">
+    {{err}}
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-3">
+    <div class="col mb-4" *ngFor="let film of films">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{film.title}}</h5>
+          <p class="card-text"></p>
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th>Episode</th>
+                  <td>{{film.episode_id}}</td>
+                </tr>
+                <tr>
+                  <th>Director</th>
+                  <td>{{film.director}}</td>
+                </tr>
+                <tr class="border-bottom">
+                  <th>Release Date</th>
+                  <td>{{film.release_date | date}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

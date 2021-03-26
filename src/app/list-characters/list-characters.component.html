@@ -1,0 +1,58 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container text-center">
+    <h1 class="display-4">Star Wars Universe</h1>
+    <p class="lead">All characters and related films.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="pagination justify-content-end" *ngIf="count">
+    <pagination
+      [totalItems]="count"
+      [maxSize]="5"
+      (pageChanged)="onPageChanged($event)"
+      [(ngModel)]="pageNo"
+      ></pagination>
+  </div>
+
+  <div class="text-center" *ngIf="isLoading">
+    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" role="alert" *ngIf="err">
+    {{err}}
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-3" *ngIf="!isLoading">
+    <div class="col mb-4" *ngFor="let character of characters">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{character.name}}</h5>
+          <p class="card-text"></p>
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th>Gender</th>
+                  <td>{{character.gender}}</td>
+                </tr>
+                <tr>
+                  <th>Height</th>
+                  <td>{{character.height}} cm</td>
+                </tr>
+                <tr class="border-bottom">
+                  <th>Species</th>
+                  <td>Human</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <a href="#" class="btn btn-primary" routerLink="/characters/{{character.id}}/{{character.name}}">View Films</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
