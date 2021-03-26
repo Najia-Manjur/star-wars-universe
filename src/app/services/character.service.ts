@@ -22,19 +22,23 @@ export class CharacterService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+  * Get characters by page number
+  * @param page - page no of which data needs to pulled.
+  */
   getCharacters(page: Number): Observable<PaginateResponse> {
     return this.http.get<Character[]>(`${this.characterUrl}/?page=${page}`)
       .pipe(
         map((characters: Character[]) => {
-          let paginateResponse = this.paginateResults(characters);
+          let paginateResponse = this.paginateResults(characters); // format the response
           paginateResponse.results = paginateResponse.results.map(character => {
-            if (character.species.length) {
+            if (character.species.length) { // if species are not empty call specifies API and retrieve all the names
               let requestSpecies = character.species.map(sp => this.http.get("https://" + sp.split("//")[1]));
 
               forkJoin(requestSpecies)
               .pipe(catchError(error => of(error)))
               .subscribe(species => {
-                character.species = species.map(sp => sp['name']).join();
+                character.species = species.map(sp => sp['name']).join(); // only name is taken
                 character.loadedSpecies = true;
               });
 
@@ -49,6 +53,10 @@ export class CharacterService {
       );
   }
 
+  /**
+  * Get all films of a character.
+  * @param id - id of the character
+  */
   getFilmsOfCharacter(id: Number): Observable<Film []> {
     return this.http.get<Film[]>(`${this.characterUrl}/${id}/`)
       .pipe(
@@ -56,19 +64,21 @@ export class CharacterService {
           console.log(character);
           return character['films'];
         }),
+        // pull film data using the film URLs. As the order doesn't matter mergeMap is used.
         mergeMap(films => {
           console.log(films);
-          let requestFilms = films.map(film => this.http.get<Film>("https://" + film.split("//")[1]))
+          let requestFilms = films.map(film => this.http.get<Film>("https://" + film.split("//")[1])) // use https for heroku
           return forkJoin(requestFilms).pipe(catchError(error => of(error)));
         }),
         take(1)
       );
   }
 
-
+  /**
+  * Format the response of people API.
+  * @param data - API response data to be formatted
+  */
   paginateResults(data): PaginateResponse {
-    console.log("paginate result");
-    console.log(data);
     const results: Character[] = data['results'].map(d =>  {
       let urlSplit = d.url.split("/");
       return {
@@ -92,7 +102,7 @@ export class CharacterService {
   }
 
   /**
-   * In case there is an http error, dont't break the app
+   * In case there is an http error, don't break the app
    * and return an empty result
    */
    private onErrorData() {

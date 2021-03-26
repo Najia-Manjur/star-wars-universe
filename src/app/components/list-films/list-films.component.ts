@@ -24,24 +24,30 @@ export class ListFilmsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // get character id and name from route
     this.id = +this.route.snapshot.paramMap.get('id');
     this.name = this.route.snapshot.paramMap.get('name');
+
+    // get all the films where the character appeared
     this.getFilmsOfCharacter();
   }
 
   getFilmsOfCharacter(): void {
-    this.isLoading = true;
-    this.err = null;
+    this.isLoading = true; // used to show spinner when API call is running
+    this.err = null; // used to show the error message in the UI
+
+    // use service method to get the films using character id
     this.characterService.getFilmsOfCharacter(this.id)
     .subscribe((films:Film[]) => {
       this.films = films;
       console.log(this.films);
     },
     err => this.err = err,
-    () => this.isLoading = false);
+    () => this.isLoading = false); // spinner status will change as the observable completed execution
   }
 
   goBack(): void {
+    // return to list of characters page. 
     this.location.back();
   }
 }
