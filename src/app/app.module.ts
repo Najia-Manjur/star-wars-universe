@@ -5,8 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ListCharactersComponent } from './list-characters/list-characters.component';
-import { ListFilmsComponent } from './list-films/list-films.component';
+import { ListCharactersComponent } from './components/list-characters/list-characters.component';
+import { ListFilmsComponent } from './components/list-films/list-films.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({

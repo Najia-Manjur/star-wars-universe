@@ -1,5 +1,5 @@
-import { ListFilmsComponent } from './list-films/list-films.component';
-import { ListCharactersComponent } from './list-characters/list-characters.component';
+import { ListFilmsComponent } from './components/list-films/list-films.component';
+import { ListCharactersComponent } from './components/list-characters/list-characters.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 

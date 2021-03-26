@@ -1,8 +1,7 @@
-import { PaginateResponse } from './../PaginateResponse';
-import { CharacterService } from './../character.service';
-import { Character } from './../character';
+import { PaginateResponse } from './../../interfaces/PaginateResponse';
+import { CharacterService } from './../../services/character.service';
+import { Character } from './../../interfaces/character';
 import { Component, OnInit } from '@angular/core';
-// import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

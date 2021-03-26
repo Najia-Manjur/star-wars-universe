@@ -1,7 +1,7 @@
-import { CharacterService } from './../character.service';
+import { CharacterService } from './../../services/character.service';
 import { Component, OnInit, TRANSLATIONS } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Film } from './../film';
+import { Film } from './../../interfaces/film';
 import { Location } from '@angular/common';
 
 @Component({

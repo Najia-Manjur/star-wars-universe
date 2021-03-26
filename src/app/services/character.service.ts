@@ -1,12 +1,12 @@
-import { Film } from './film';
-import { PaginateResponse } from './PaginateResponse';
+import { Film } from '../interfaces/film';
+import { PaginateResponse } from '../interfaces/paginateResponse';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, take} from 'rxjs/operators';
 
-import { Character } from './character';
+import { Character } from '../interfaces/character';
 
 @Injectable({
   providedIn: 'root'
