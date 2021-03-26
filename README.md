@@ -13,6 +13,12 @@ npm install
 npm start
 ng serve
 ```
+## Tech
+- Angular CLI: 11.2.6
+- Node: 14.16.0
+- Typescript: 4.1.5
+- Rxjs 6.5.2
+- API : https://swapi.dev/
 
 ## Development server
 
