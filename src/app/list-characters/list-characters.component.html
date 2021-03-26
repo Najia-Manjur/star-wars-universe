@@ -1,18 +1,17 @@
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid head-banner">
   <div class="container text-center">
-    <h1 class="display-4">Star Wars Universe</h1>
-    <p class="lead">All characters and related films.</p>
+    <h1 class="banner-title">Star Wars Universe</h1>
+    <p class="banner-description">All characters and related films</p>
   </div>
 </div>
 
 <div class="container">
   <div class="pagination justify-content-end" *ngIf="count">
-    <pagination
-      [totalItems]="count"
+      <ngb-pagination
+      [(page)]="currentPage"
       [maxSize]="5"
-      (pageChanged)="onPageChanged($event)"
-      [(ngModel)]="pageNo"
-      ></pagination>
+      (pageChange)="onPageChanged($event)"
+      [collectionSize]="count"></ngb-pagination>
   </div>
 
   <div class="text-center" *ngIf="isLoading">
@@ -25,18 +24,18 @@
     {{err}}
   </div>
 
-  <div class="row row-cols-1 row-cols-md-3" *ngIf="!isLoading">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" *ngIf="!isLoading">
     <div class="col mb-4" *ngFor="let character of characters">
-      <div class="card">
+      <div class="card card-character" routerLink="/characters/{{character.id}}/{{character.name}}">
         <div class="card-body">
-          <h5 class="card-title">{{character.name}}</h5>
+          <h5 class="card-title text-center">{{character.name | titlecase}}</h5>
           <p class="card-text"></p>
           <div class="table-responsive">
             <table class="table">
               <tbody>
                 <tr>
                   <th>Gender</th>
-                  <td>{{character.gender}}</td>
+                  <td>{{character.gender | titlecase}}</td>
                 </tr>
                 <tr>
                   <th>Height</th>
@@ -44,12 +43,12 @@
                 </tr>
                 <tr class="border-bottom">
                   <th>Species</th>
-                  <td>Human</td>
+                  <td>{{character.loadedSpecies? character.species:""}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <a href="#" class="btn btn-primary" routerLink="/characters/{{character.id}}/{{character.name}}">View Films</a>
+          <!-- <a href="#" class="btn btn-primary" routerLink="/characters/{{character.id}}/{{character.name}}">View Films</a> -->
         </div>
       </div>
     </div>

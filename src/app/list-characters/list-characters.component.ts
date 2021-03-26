@@ -2,7 +2,7 @@ import { PaginateResponse } from './../PaginateResponse';
 import { CharacterService } from './../character.service';
 import { Character } from './../character';
 import { Component, OnInit } from '@angular/core';
-import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+// import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -27,15 +27,15 @@ export class ListCharactersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentPage = +this.route.snapshot.paramMap.get('currentPage');
+    let pageNo = +this.route.snapshot.paramMap.get('currentPage');
     this.count = 0;
-    this.getCharacters(this.currentPage);
+    this.currentPage = pageNo;
+    this.getCharacters(pageNo);
   }
 
-  onPageChanged(event: PageChangedEvent): void {
-    this.currentPage = event.page;
-    this.getCharacters(this.currentPage);
-    this.router.navigate(['/characters/' + event.page]);
+  onPageChanged(page): void {
+    this.getCharacters(page);
+    this.router.navigate(['/characters/' + page]);
   }
 
   getCharacters(page: Number): void {
@@ -49,6 +49,9 @@ export class ListCharactersComponent implements OnInit {
       this.characters = response.results;
     },
     err => this.err = err,
-    () => this.isLoading = false);
+    () => {
+      this.isLoading = false;
+      this.currentPage = page;
+    });
   }
 }

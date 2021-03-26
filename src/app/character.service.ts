@@ -25,7 +25,26 @@ export class CharacterService {
   getCharacters(page: Number): Observable<PaginateResponse> {
     return this.http.get<Character[]>(`${this.characterUrl}/?page=${page}`)
       .pipe(
-        map((characters: Character[]) => this.paginateResults(characters)),
+        map((characters: Character[]) => {
+          let paginateResponse = this.paginateResults(characters);
+          paginateResponse.results = paginateResponse.results.map(character => {
+            if (character.species.length) {
+              let requestSpecies = character.species.map(sp => this.http.get("https://" + sp.split("//")[1]));
+
+              forkJoin(requestSpecies)
+              .pipe(catchError(error => of(error)))
+              .subscribe(species => {
+                character.species = species.map(sp => sp['name']).join();
+                character.loadedSpecies = true;
+              });
+
+            } else
+              character.species = "Unknown";
+
+            return character;
+          });
+          return paginateResponse;
+        }),
         catchError(this.handleError<PaginateResponse>('getCharacters',  this.onErrorData()))
       );
   }
@@ -48,13 +67,17 @@ export class CharacterService {
 
 
   paginateResults(data): PaginateResponse {
+    console.log("paginate result");
+    console.log(data);
     const results: Character[] = data['results'].map(d =>  {
       let urlSplit = d.url.split("/");
       return {
         id: urlSplit[urlSplit.length - 2],
         name: d.name,
         gender: d.gender,
-        height: d.height
+        height: d.height,
+        species: d.species,
+        loadedSpecies: d.species.length == 0
       }
     });
 
