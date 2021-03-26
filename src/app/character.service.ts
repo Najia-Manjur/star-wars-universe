@@ -14,7 +14,7 @@ import { Character } from './character';
 
 export class CharacterService {
 
-  private characterUrl = 'http://swapi.dev/api/people';
+  private characterUrl = 'https://swapi.dev/api/people';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
